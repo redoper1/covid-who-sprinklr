@@ -88,7 +88,7 @@ Apify.main(async () => {
 
     const data = {
         dataByStates: dataByStates,
-        historyData: "",
+        historyData: "https://api.apify.com/v2/datasets/4wrWtORugf0148gJ6/items?format=json&clean=1",
         sourceUrl: url,
         lastUpdatedAtSource: lastUpdated,
         lastUpdatedAtApify: new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes())).toISOString(),
