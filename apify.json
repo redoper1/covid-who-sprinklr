@@ -1,0 +1,7 @@
+{
+	"name": "covid-who-sprinklr",
+	"version": "0.1",
+	"buildTag": "latest",
+	"env": null,
+	"template": "puppeteer_single_page"
+}

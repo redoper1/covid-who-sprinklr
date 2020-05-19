@@ -1,0 +1,15 @@
+{
+  "title": "World Healthcare Organization - COVID-19",
+  "description": "This actor scrapes global data about COVID-19 from the World Health Organization.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "notificationEmail": {
+      "title": "Notification email",
+      "type": "string",
+      "description": "Email where will be send if actor failed",
+      "editor": "textfield"
+    }
+  },
+  "required": []
+}
