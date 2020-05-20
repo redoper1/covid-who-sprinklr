@@ -1,6 +1,6 @@
 # WHO Coronavirus stats
 
-Actor gets an actual number of examined and infected people from https://dashboards-dev.sprinklr.com/data/9043/global-covid19-who-gis.json
+Actor gets an actual number of examined and infected people from https://covid19.who.int/
 
 Latest data are available at this URL: https://api.apify.com/v2/key-value-stores/vTVhbsNB5aZtST6yv/records/LATEST?disableRedirect=true.
 

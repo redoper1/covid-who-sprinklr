@@ -6,7 +6,7 @@ const LATEST = "LATEST";
 
 Apify.main(async () => {
     const { notificationEmail } = await Apify.getInput();
-    const url = "https://dashboards-dev.sprinklr.com/data/9043/global-covid19-who-gis.json";
+    const url = "https://covid19.who.int/";
     const kvStore = await Apify.openKeyValueStore("COVID-19-WHO-SPRINKLR");
     const dataset = await Apify.openDataset("COVID-19-WHO-SPRINKLR-HISTORY");
     const requestList = await Apify.openRequestList('LIST', [
