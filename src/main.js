@@ -11,7 +11,7 @@ Apify.main(async () => {
     const dataset = await Apify.openDataset("COVID-19-WHO-SPRINKLR-HISTORY");
     const requestList = await Apify.openRequestList('LIST', [
         {
-            url: 'https://dashboards-dev.sprinklr.com/data/9043/global-covid19-who-gis.json'
+            url: 'https://covid19.who.int/page-data/index/page-data.json'
         }
     ])
 
@@ -31,19 +31,23 @@ Apify.main(async () => {
         handleRequestFunction: async ({request}) => {
             let response;
             let body;
-            let $;
-            let tableRows;
+            let countryGroups;
             response = await requestAsBrowser({
                 url: request.url,
                 json: true,
             });
             body = response.body;
+            countryGroups = body.result.pageContext.rawDataSets.countryGroups;
             let countries = [];
-            let rows = body.rows;
-            rows.forEach(row => {
-                var country = countryName(row[1], 'en');
-                var coutryCode = row[1];
-                if (!countries.includes(coutryCode) && typeof(country) != 'undefined') countries.push(coutryCode);
+            let countriesObj = [];
+            countryGroups.forEach(countryObj => {
+                var country = countryName(countryObj.value, 'en');
+                var coutryCode = countryObj.value;
+                if (!countries.includes(coutryCode) && typeof(country) != 'undefined') {
+                    countries.push(coutryCode);
+                    countriesObj.push(coutryCode);
+                    countriesObj[coutryCode] = countryObj;
+                }
             });
             countries.sort(function (a, b) {
                 a = countryName(a, 'en');
@@ -59,22 +63,20 @@ Apify.main(async () => {
             });
             countries.forEach(countryCode => {
                 var country = countryName(countryCode, 'en');
-                var countryRows = rows.filter(function (row) {
-                    return row[1] == countryCode;
-                });
+                var countryRows = countriesObj[countryCode].data.rows;
                 dataByStates[country] = [];
                 countryRows.forEach(row => {
                     let data = {};
                     data['date'] = new Date(row[0]).toISOString();
-                    data['deceased'] = parseInt(row[4]);
-                    data['deceasedNew'] = parseInt(row[3]);
-                    data['confirmed'] = parseInt(row[6]);
-                    data['confirmedNew'] = parseInt(row[5]);
+                    data['deceased'] = parseInt(row[3]);
+                    data['deceasedNew'] = parseInt(row[2]);
+                    data['confirmed'] = parseInt(row[8]);
+                    data['confirmedNew'] = parseInt(row[7]);
+
                     dataByStates[country].push(data);
                 });
             });
-
-            lastUpdated = new Date(body.lastUpdateTime).toISOString();
+            lastUpdated = body.result.pageContext.rawDataSets.lastUpdate;
         }
     });
 
